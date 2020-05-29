@@ -2,6 +2,7 @@ import { Contact, Message, Wechaty } from 'wechaty'
 import { ScanStatus } from 'wechaty-puppet'
 import { PuppetPadplus } from 'wechaty-puppet-padplus'
 import QrcodeTerminal from 'qrcode-terminal'
+import { MessageHandler } from './message-handler'
 
 const puppet = new PuppetPadplus({
   token: process.env.WECHATY_TOKEN
@@ -13,6 +14,8 @@ const bot = new Wechaty({
   puppet,
   name, // generate xxxx.memory-card.json and save login data for the next login
 })
+
+const messageHandler = new MessageHandler()
 
 bot
   .on('scan', (qrcode, status) => {
@@ -27,6 +30,8 @@ bot
   })
   .on('message', (msg: Message) => {
     console.log(`msg : ${msg}`)
+
+    msg.say(messageHandler.onMessage(msg.toString()))
   })
 //   .on('logout', (user: Contact, reason: string) => {
 //     console.log(`logout user: ${user}, reason : ${reason}`)
