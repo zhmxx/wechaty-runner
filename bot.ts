@@ -2,7 +2,7 @@ import { Contact, Message, Wechaty } from 'wechaty'
 import { ScanStatus } from 'wechaty-puppet'
 import { PuppetPadplus } from 'wechaty-puppet-padplus'
 import QrcodeTerminal from 'qrcode-terminal'
-import { MessageHandler } from './message-handler'
+import { MessageHandler } from './message-handlers/message-handler'
 
 const puppet = new PuppetPadplus({
   token: process.env.WECHATY_TOKEN
