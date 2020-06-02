@@ -31,7 +31,9 @@ bot
   .on('message', (msg: Message) => {
     console.log(`msg : ${msg}`)
 
-    msg.say(messageHandler.onMessage(msg.toString()))
+    if (!msg.room()) {  // Ignore messages coming from groups
+      msg.say(messageHandler.onMessage(msg))
+    }
   })
 //   .on('logout', (user: Contact, reason: string) => {
 //     console.log(`logout user: ${user}, reason : ${reason}`)

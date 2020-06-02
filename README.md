@@ -2,4 +2,5 @@
 An automation test runner based on wechaty.
 
 # Run
-ts-node bot.ts
+1. Add environment variable WECHATY_TOKEN and set its value to your token
+2. Run in command line: `ts-node bot.ts`

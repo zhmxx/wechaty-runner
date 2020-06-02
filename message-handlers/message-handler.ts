@@ -1,4 +1,6 @@
 import { Util } from "../util"
+import { QaHandler } from "./qa-handler"
+import { Message } from 'wechaty'
 
 export class MessageHandler {
 
@@ -19,6 +21,7 @@ export class MessageHandler {
     private help = [
         'Set your role: set role [qa|dev|manager]',
         'Set an alarm clock: alarm [30s|5min|1h]',
+        'Turn off the alarm: alarm off',
         'Make a suggestion: suggest [content]'
     ]
 
@@ -29,14 +32,24 @@ export class MessageHandler {
      * Supported message format (case insensitive):
      *      run <automation test name/path>
      */
-    onMessage(msg: string) : string {
+    onMessage(msg: Message) : string {
         console.log('Received message: ', msg)
-        msg = msg.toLowerCase()
 
-        return this.chittyChat[Util.randInt(0, this.chittyChat.length - 1)]
+        if (this.getUserRole(msg) === 'qa') {
+            const qaHandler = new QaHandler()
+            const result = qaHandler.onMessage(msg)
+            console.log('result of QaHandler: ', result)
+            return result
+        } else {
+            return this.chittyChat[Util.randInt(0, this.chittyChat.length - 1)]
+        }
     }
 
     private registerUser(wechatId: string, role: string) {
         this.userConfig.set(wechatId, role)
+    }
+
+    private getUserRole(msg: Message) {
+        return 'qa';
     }
 }
