@@ -1,4 +1,7 @@
-testPath = "C:\Users\zhaihua\Documents\Unified Functional Testing\" & WScript.Arguments(0)
+Set wshShell = CreateObject( "WScript.Shell" )
+userFolderPath = wshShell.ExpandEnvironmentStrings( "%UserProfile%" )
+
+testPath = userFolderPath & "\Documents\Unified Functional Testing\" & WScript.Arguments(0)
   Dim objFSO
   Set objFSO = CreateObject("Scripting.FileSystemObject")
   DoesFolderExist = objFSO.FolderExists(testPath)
