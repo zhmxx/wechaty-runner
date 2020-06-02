@@ -30,7 +30,7 @@ export class QaHandler {
         // Run UFT test in vbs
         // http://testingfreak.com/run-qtp-script-using-batch-file/
         const spawn = require('child_process').spawnSync
-        const result = spawn('cscript.exe', ['./run-test.vbs', param])
+        const result = spawn('cscript.exe', ['./message-handlers/run-test.vbs', param])
 
         return 'Testing is running. You will get a notification when done.'
     }
