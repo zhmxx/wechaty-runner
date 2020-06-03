@@ -36,6 +36,11 @@ export class QaHandler {
     }
 
     private getUserTestList(msg: Message) {
-        return ['GUITest1', 'GUITest2', 'GUITest3', 'GUITest4', 'GUITest5']
+        var fs = require("fs");
+        const path = require('path');
+        var pathDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+        var userPath = path.resolve(pathDir)+ "/Documents/Unified Functional Testing/";
+        var result = fs.readdirSync(userPath);
+        return result;
     }
 }
