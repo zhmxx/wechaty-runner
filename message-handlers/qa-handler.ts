@@ -8,7 +8,7 @@ export class QaHandler {
         'Run test: run [test name|path]',
         'Check last report: report [test name|ID]',
         'Back to main menu: back/exit',
-        'Show examples of command: example [command name]'
+        'Show examples of command: sh: [command name]',
     ]
 
     async onMessage(msg: Message) {
@@ -19,13 +19,30 @@ export class QaHandler {
         } else if (cmd.indexOf('list') === 0) {
             console.log('listing tests...')
             return 'Your test list:\n' + this.getUserTestList(msg).join('\n')
-        } else if(cmd.indexOf('help ') === 0 || cmd.indexOf('help') === 0) {
+        } else if(cmd.indexOf('help') === 0) {
             console.log('DESCRIPTION: \n');
             var result = '';
             for(var i in this.help) {
                 result += this.help[i] + '\n';
             }
             return result;
+        } else if(cmd.indexOf('sh:') === 0) {
+            //to be executed command
+            var index = cmd.indexOf(':');
+            var cli = cmd.substring(index + 1);
+            console.log('received command: ' + cli);
+            var exec = require('child_process').exec;
+
+            exec(cli,{encoding:'utf8'},function (err: string, stdout: string, stderr: string){
+                if (err){
+                    console.log(err);
+                    msg.say(stderr);
+                    return stderr;
+                }
+                console.log(stdout);
+                msg.say(stdout);
+                return stdout;
+            })
         } else {
             return ''
         }
