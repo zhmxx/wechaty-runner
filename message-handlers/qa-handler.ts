@@ -14,11 +14,18 @@ export class QaHandler {
     onMessage(msg: Message): string {
         console.log('QaHandler receives: ', msg)
         const cmd = msg.text().toLowerCase()
-        if (cmd.indexOf('run ') === 0) {    // Run automation test
+        if (cmd.indexOf('run ') === 0 || cmd.indexOf('run') === 0) {    // Run automation test
             return this.runAutomationTest(cmd.substring(cmd.indexOf(' ') + 1))
-        } else if (cmd.indexOf('list ') === 0) {
+        } else if (cmd.indexOf('list ') === 0 || cmd.indexOf('list') === 0) {
             console.log('listing tests...')
             return 'Your test list:\n' + this.getUserTestList(msg).join('\n')
+        } else if(cmd.indexOf('help ') === 0 || cmd.indexOf('help') === 0) {
+            console.log('DESCRIPTION: \n');
+            var result = '';
+            for(var i in this.help) {
+                result += this.help[i] + '\n';
+            }
+            return result;
         } else {
             return ''
         }
