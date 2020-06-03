@@ -7,6 +7,10 @@ testPath = userFolderPath & "\Documents\Unified Functional Testing\" & WScript.A
   DoesFolderExist = objFSO.FolderExists(testPath)
   Set objFSO = Nothing
   If DoesFolderExist Then
+
+  Set qtResultsOpt = CreateObject("QuickTest.RunResultsOptions") ' Create the Run Results Options object
+  qtResultsOpt.ResultsLocation = "C:\UFTRunResult"
+
   Dim qtApp
   Dim qtTest
   Set qtApp = CreateObject("QuickTest.Application")
@@ -14,7 +18,7 @@ testPath = userFolderPath & "\Documents\Unified Functional Testing\" & WScript.A
   qtApp.Visible = True
   qtApp.Open testPath, False
   Set qtTest = qtApp.Test
-  qtTest.Run
+  qtTest.Run qtResultsOpt
   qtTest.Close
   qtApp.Quit
   Else
