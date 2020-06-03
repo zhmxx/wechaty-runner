@@ -32,16 +32,14 @@ export class MessageHandler {
      * Supported message format (case insensitive):
      *      run <automation test name/path>
      */
-    onMessage(msg: Message) : string {
+    async onMessage(msg: Message) {
         console.log('Received message: ', msg)
 
         if (this.getUserRole(msg) === 'qa') {
             const qaHandler = new QaHandler()
-            const result = qaHandler.onMessage(msg)
-            console.log('result of QaHandler: ', result)
-            return result
+            qaHandler.onMessage(msg)
         } else {
-            return this.chittyChat[Util.randInt(0, this.chittyChat.length - 1)]
+            msg.say(this.chittyChat[Util.randInt(0, this.chittyChat.length - 1)])
         }
     }
 

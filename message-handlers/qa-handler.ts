@@ -11,12 +11,12 @@ export class QaHandler {
         'Show examples of command: example [command name]'
     ]
 
-    onMessage(msg: Message): string {
+    async onMessage(msg: Message) {
         console.log('QaHandler receives: ', msg)
         const cmd = msg.text().toLowerCase()
-        if (cmd.indexOf('run ') === 0 || cmd.indexOf('run') === 0) {    // Run automation test
-            return this.runAutomationTest(cmd.substring(cmd.indexOf(' ') + 1))
-        } else if (cmd.indexOf('list ') === 0 || cmd.indexOf('list') === 0) {
+        if (cmd.indexOf('run ') === 0) {    // Run automation test
+            return this.runAutomationTest(msg, cmd.substring(cmd.indexOf(' ') + 1))
+        } else if (cmd.indexOf('list') === 0) {
             console.log('listing tests...')
             return 'Your test list:\n' + this.getUserTestList(msg).join('\n')
         } else if(cmd.indexOf('help ') === 0 || cmd.indexOf('help') === 0) {
@@ -31,15 +31,17 @@ export class QaHandler {
         }
     }
 
-    private runAutomationTest(param: string): string {
+    private async runAutomationTest(msg: Message, param: string) {
         console.log('Running automation test: ', param)
+
+        await msg.say('Test is running. You will get a notification when done.')
 
         // Run UFT test in vbs
         // http://testingfreak.com/run-qtp-script-using-batch-file/
         const spawn = require('child_process').spawnSync
-        const result = spawn('cscript.exe', ['./message-handlers/run-test.vbs', param])
+        spawn('cscript.exe', ['./message-handlers/run-test.vbs', param])
 
-        return 'Testing is running. You will get a notification when done.'
+        msg.say('Here is your report: http://172.20.10.2:8000/Report/run_results.html')
     }
 
     private getUserTestList(msg: Message) {
