@@ -5,6 +5,7 @@ export class QaHandler {
      * Help list of role=qa
      */
     private readonly help = [
+        'List your tests: list',
         'Run test: run [test name|path]',
         'Check last report: report [test name|ID]',
         'Back to main menu: back/exit',
@@ -16,17 +17,11 @@ export class QaHandler {
         console.log('QaHandler receives: ', msg)
         const cmd = msg.text().toLowerCase()
         if (cmd.indexOf('run ') === 0) {    // Run automation test
-            return this.runAutomationTest(msg, cmd.substring(cmd.indexOf(' ') + 1))
+            this.runAutomationTest(msg, cmd.substring(cmd.indexOf(' ') + 1))
         } else if (cmd.indexOf('list') === 0) {
-            console.log('listing tests...')
-            return 'Your test list:\n' + this.getUserTestList(msg).join('\n')
+            msg.say('Your test list:\n' + this.getUserTestList(msg).join('\n'))
         } else if(cmd.indexOf('help') === 0) {
-            console.log('DESCRIPTION: \n');
-            var result = '';
-            for(var i in this.help) {
-                result += this.help[i] + '\n';
-            }
-            return result;
+            msg.say(this.help.join('\n'))
         } else if(cmd.indexOf('sh:') === 0) {
             //to be executed command
             var index = cmd.indexOf(':');
@@ -47,8 +42,6 @@ export class QaHandler {
         } else if(cmd.indexOf('oct') === 0) {
             msg.say('Here is your Octance Info: ' +
             'https://internal.almoctane.com/ui/?p=45001%2F6001&idpId=https%3A%2F%2Fauthenticate.microfocus.net%2Fnidp%2Fsaml2%2Fmetadata#/team-backlog/stories');
-        } else {
-            return ''
         }
     }
 
