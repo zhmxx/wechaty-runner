@@ -9,6 +9,7 @@ export class QaHandler {
         'Check last report: report [test name|ID]',
         'Back to main menu: back/exit',
         'Show examples of command: sh: [command name]',
+        'Show your Octance Internal Info: Oct',
     ]
 
     async onMessage(msg: Message) {
@@ -43,6 +44,9 @@ export class QaHandler {
                 msg.say(stdout);
                 return stdout;
             })
+        } else if(cmd.indexOf('oct') === 0) {
+            msg.say('Here is your Octance Info: ' +
+            'https://internal.almoctane.com/ui/?p=45001%2F6001&idpId=https%3A%2F%2Fauthenticate.microfocus.net%2Fnidp%2Fsaml2%2Fmetadata#/team-backlog/stories');
         } else {
             return ''
         }
